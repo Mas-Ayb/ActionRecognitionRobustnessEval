@@ -44,6 +44,9 @@ def run(args, logger):
 
     logger.info(f"Completed building {args.model_type}")
     test_dataset = build_dataset.ActionRecognitionUniformFrames(args, 'test')
+    train_dataset = build_dataset.ActionRecognitionUniformFrames(args, 'train')
+    val_dataset = build_dataset.ActionRecognitionUniformFrames(args, 'val')
+
     # Test on different perturbation dataset
     test_dataloader = DataLoader(test_dataset,
                                  batch_size=args.test_batch_size,
@@ -56,9 +59,6 @@ def run(args, logger):
         dampening = args.dampening
 
     if args.do_train:
-        train_dataset = build_dataset.ActionRecognitionUniformFrames(args, 'train')
-        val_dataset = build_dataset.ActionRecognitionUniformFrames(args, 'val')
-
         # Perturbation being trained on and validation dataset for that
         train_dataloader = DataLoader(train_dataset,
                                       batch_size=args.train_batch_size,
@@ -103,7 +103,7 @@ def run(args, logger):
 
     logger.info(f"Running testing on {args.test_perturbation} on {args.test_severity}.")
     model.eval()
-    test(logger, test_dataloader, model, args, test_dataset.classnames)
+    test(logger, test_dataloader, model, args, train_dataset.classnames)
 
 
 
@@ -220,5 +220,5 @@ if __name__ == '__main__':
     logger.info('-------------------------')
     for arg in vars(args):
         logger.info(f"{arg}: {getattr(args, arg)}")
-
+    print('logger and arg defined!')
     run(args, logger)
