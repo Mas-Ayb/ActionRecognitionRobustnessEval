@@ -48,8 +48,8 @@ class ActionRecognitionUniformFrames(Dataset):
 
         # Video configurations
         self.video_root = config.root_dir
-        self.num_frames = config.num_frames  # 4
-        self.sample = NUM_FRAMES[config.model_type] # config.sample_type  # 'uniform'
+        self.num_frames = NUM_FRAMES[config.model_type]  # 4
+        self.sample =  config.sample_type  # 'uniform'
         self.model_type = config.model_type
         self.fix_start = config.fix_start   #None
         if split == 'train':
